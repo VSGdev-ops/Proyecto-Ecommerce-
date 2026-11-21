@@ -8,10 +8,10 @@ def create_app():
     app = Flask(__name__)
     
     # Configuration
-    app.config['SECRET_KEY'] = 'dev-secret-key' # Change in production
+    app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'dev-only-change-me')
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///ecommerce.db'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    app.config['JWT_SECRET_KEY'] = 'jwt-secret-key' # Change in production
+    app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY', 'dev-only-change-me')
     app.config['JWT_TOKEN_LOCATION'] = ['headers']
     app.config['JWT_HEADER_NAME'] = 'Authorization'
     app.config['JWT_HEADER_TYPE'] = 'Bearer'
@@ -50,4 +50,4 @@ def create_app():
 
 if __name__ == '__main__':
     app = create_app()
-    app.run(debug=True)
+    app.run(debug=os.getenv('FLASK_DEBUG') == '1')
